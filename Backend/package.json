@@ -1,0 +1,21 @@
+{
+  "name": "devtinder-backend",
+  "version": "1.0.0",
+  "description": "all the backend related work will be in this folder",
+  "main": "index.js",
+  "scripts": {
+    "start":"node src/app.js",
+    "dev":"nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "nodeJS"
+  ],
+  "author": "Shubham Sawant",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
