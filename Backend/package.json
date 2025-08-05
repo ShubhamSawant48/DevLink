@@ -4,8 +4,8 @@
   "description": "all the backend related work will be in this folder",
   "main": "index.js",
   "scripts": {
-    "start":"node src/app.js",
-    "dev":"nodemon src/app.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +16,7 @@
   "author": "Shubham Sawant",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongoose": "^8.17.0"
   }
 }
