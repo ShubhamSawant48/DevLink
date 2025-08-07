@@ -5,14 +5,18 @@ const connectDB = require("./config/database");
 const User = require("./models/User");
 
 connectDB()
-  .then(() => {
+  .then(async () => {
     console.log("database connected successfully...");
-    app.listen(7777, (req, res) => {
+
+    await User.syncIndexes();
+
+    app.listen(7777, () => {
       console.log("server established successfully...");
     });
   })
   .catch((err) => {
-    console.log("error occured while connecting db...");
+    console.error("error occurred while connecting db:", err.message);
+    process.exit(1);
   });
 
 app.use(express.json());
@@ -30,13 +34,12 @@ app.get("/users", async (req, res) => {
 
 // signup api
 app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
-
   try {
+    const user = new User(req.body);
     await user.save();
     res.send("user added successfully...");
   } catch (err) {
-    res.status(500).send("user unable to add");
+    res.status(500).send("user unable to add: " + err.message);
   }
 });
 
@@ -63,12 +66,35 @@ app.delete("/user", async (req, res) => {
 });
 
 // update user from db
-app.patch("/user", async (req, res) => {
+app.patch("/user/:userId", async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.body.userId,req.body,{returnDocument:"before",});
-    console.log(user)
+    const allowedUpdates = [
+      "firstName",
+      "lastName",
+      "password",
+      "age",
+      "gender",
+      "skills",
+    ];
+    const isAllowedKeys = Object.keys(req.body).every((k) =>
+      allowedUpdates.includes(k)
+    );
+    if (!isAllowedKeys) {
+      throw new Error("updation not allowed");
+    }
+    const user = await User.findByIdAndUpdate(req.params?.userId, req.body, {
+      returnDocument: "before",
+      runValidators: true,
+    });
+    console.log(user);
     res.send("user updated successfully!");
   } catch (err) {
-    res.status(500).send("updating didn't happen!");
+    res.status(500).send("updating didn't happen! " + err.message);
+  }
+});
+
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.send("something went wrong...");
   }
 });
