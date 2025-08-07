@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/User");
+const validateSignUpData = require("./utils/validation");
+const bcrypt = require("bcrypt");
 
 connectDB()
   .then(async () => {
@@ -35,11 +37,46 @@ app.get("/users", async (req, res) => {
 // signup api
 app.post("/signup", async (req, res) => {
   try {
-    const user = new User(req.body);
+    validateSignUpData(req.body);
+    const { firstName, lastName, emailId, password } = req.body;
+
+    const hashPassword = await bcrypt.hash(password, 10);
+    console.log(hashPassword);
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: hashPassword,
+    });
+
     await user.save();
     res.send("user added successfully...");
   } catch (err) {
     res.status(500).send("user unable to add: " + err.message);
+  }
+});
+
+// login api
+app.post("/login", async (req, res) => {
+  try {
+    const {emailId,password}= req.body;
+
+    const user = await User.findOne({emailId:emailId});
+    if(!user){
+      res.send("Invalid Credentials...");
+    }
+    
+    const isValidPassword = await bcrypt.compare(password,user.password);
+    if(isValidPassword){
+      res.send("Login successful...");
+    } else {
+      res.send("Invalid Credentials...");
+    }
+    
+    
+  } catch (err) {
+    res.status(500).send("user unable to login : " + err.message);
   }
 });
 
@@ -82,11 +119,14 @@ app.patch("/user/:userId", async (req, res) => {
     if (!isAllowedKeys) {
       throw new Error("updation not allowed");
     }
+    if (req.body.skills.length > 10) {
+      throw new Error("skills cannot be more than 10");
+    }
     const user = await User.findByIdAndUpdate(req.params?.userId, req.body, {
       returnDocument: "before",
       runValidators: true,
     });
-    console.log(user);
+    // console.log(user);
     res.send("user updated successfully!");
   } catch (err) {
     res.status(500).send("updating didn't happen! " + err.message);
