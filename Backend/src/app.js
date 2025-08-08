@@ -7,6 +7,7 @@ const validateSignUpData = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middlewares/userAuth");
 
 connectDB()
   .then(async () => {
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // feed api - get all users from db
-app.get("/users", async (req, res) => {
+app.get("/users", userAuth,async (req, res) => {
   try {
     const users = await User.find({});
 
@@ -70,36 +71,24 @@ app.post("/login", async (req, res) => {
       res.send("Invalid Credentials...");
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword =await user.checkValidPassword(password); 
     if (isValidPassword) {
-      const token = await jwt.sign({ id: user._id }, "devTinder@123");
-      res.cookie("token",token);
+      const token = await user.getJWT();
+      res.cookie("token", token,{expires:new Date(Date.now() + 7 * 3600000)});
       res.send("Login successful...");
     } else {
       res.send("Invalid Credentials...");
     }
   } catch (err) {
-    res.status(500).send("user unable to login : " + err.message);
+    res.status(500).send("unable to login : " + err.message);
   }
 });
 
 // get profile info
-app.get("/profile", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try {
-    const {token} = req.cookies
-    if (!token) {
-      throw new Error("Invalid Token!");
-    }
-
-    const decodedMessage = await jwt.verify(token, "devTinder@123");
-    const { id } = decodedMessage;
-    // console.log(id);
-
-    const user = await User.findOne({_id:id});
-    if(!user){
-      throw new Error("user not found!");
-    }
-    res.send(user)
+    const user = req.user;
+    res.send(user);
   } catch (err) {
     res.send("error : " + err.message);
   }
@@ -160,6 +149,6 @@ app.patch("/user/:userId", async (req, res) => {
 
 app.use("/", (err, req, res, next) => {
   if (err) {
-    res.send("something went wrong...");
+    res.send("something went wrong...last");
   }
 });
