@@ -12,7 +12,6 @@ authRouter.post("/signup", async (req, res) => {
     const { firstName, lastName, emailId, password } = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
-    console.log(hashPassword);
 
     const user = new User({
       firstName,
@@ -46,7 +45,7 @@ authRouter.post("/login", async (req, res) => {
       });
       res.send("Login successful...");
     } else {
-      res.send("Invalid Credentials...");
+      res.send("Invalid Credentials...4");
     }
   } catch (err) {
     res.status(500).send("unable to login : " + err.message);
