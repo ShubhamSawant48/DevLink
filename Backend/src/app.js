@@ -4,6 +4,7 @@ const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/User");
 const cookieParser = require("cookie-parser");
+const cors = require('cors');
 
 connectDB()
   .then(async () => {
@@ -20,6 +21,10 @@ connectDB()
     process.exit(1);
   });
 
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
