@@ -1,22 +1,32 @@
 import { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import {useDispatch} from "react-redux";
+import { addUser } from "../utils/userSlice";
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("ameer@gmail.com");
-  const [password, setPassword] = useState("Ameer@123");
+  const [emailId, setEmailId] = useState("shubham@gmail.com");
+  const [password, setPassword] = useState("Shubham@123");
+  const [error,setError] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:7777/login",
+      const user = await axios.post(
+        BASE_URL + "/login",
         {
           emailId,
           password,
         },
         { withCredentials: true }
       );
+      dispatch(addUser(user.data));
+      navigate("/feed");
+
     } catch (err) {
-      res.status(500).json({ message: "error: " + err.message });
+      setError(err?.response?.data || "something went wrong...")
     }
   };
 
@@ -38,6 +48,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <h2>{error}</h2>
         <div className="card-actions justify-end w-full">
           <button
             className="btn btn-primary bg-primary w-full"

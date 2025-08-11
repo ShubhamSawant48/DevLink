@@ -1,6 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router";
 import Body from "./components/Body";
 import Login from "./components/Login";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import Feed from "./components/Feed";
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -9,20 +12,26 @@ function App() {
       element: <Body />,
       children: [
         {
-          path: "/login",
-          element: <Login />
+          path: "/",
+          element: <Login />,
+        },
+        {
+          path: "/feed",
+          element: <Feed /> 
         },
         {
           path: "/test",
-          element: <div>test</div>
-        }
+          element: <div>test</div>,
+        },
       ],
     },
   ]);
 
   return (
     <>
-      <RouterProvider router={appRouter} />
+      <Provider store={appStore}>
+        <RouterProvider router={appRouter} />
+      </Provider>
     </>
   );
 }
