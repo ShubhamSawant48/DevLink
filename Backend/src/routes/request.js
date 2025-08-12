@@ -73,7 +73,6 @@ requestRouter.post(
         toUserId: loggedInUser._id,
         status: "interested",
       });
-      console.log(connectionRequest)
       if (!connectionRequest) {
         return res.status(404).json({ message: "connection request does not exist!" });
       }

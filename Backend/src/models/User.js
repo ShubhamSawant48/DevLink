@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     age: {
-      type: String,
+      type: Number,
       min: 18,
       max: 75,
     },
@@ -59,6 +59,11 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    about:{
+      type:String,
+      default:"this is default about the user",
+      maxLength:100
+    }
   },
   {
     timestamps: true,

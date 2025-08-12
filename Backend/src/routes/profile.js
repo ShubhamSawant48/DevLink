@@ -31,7 +31,7 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 
     res.send("user updated successfully!");
   } catch (err) {
-    res.status(500).send("updating didn't happen! " + err.message);
+    res.status(500).send(err.message);
   }
 });
 
