@@ -23,7 +23,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(user.data));
-      navigate("/feed");
+      navigate("/");
 
     } catch (err) {
       setError(err?.response?.data || "something went wrong...")
@@ -44,11 +44,11 @@ const Login = () => {
         <input
           type="text"
           placeholder="Password"
-          className="input input-bordered w-full md:w-auto mb-5"
+          className="input input-bordered w-full md:w-auto mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <h2>{error}</h2>
+        <h1 className="text-red-500 mb-3 mx-auto text-2xl font-bold">{error}</h1>
         <div className="card-actions justify-end w-full">
           <button
             className="btn btn-primary bg-primary w-full"

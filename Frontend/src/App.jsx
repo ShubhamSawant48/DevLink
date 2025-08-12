@@ -13,11 +13,11 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Login />,
+          element: <Feed /> 
         },
         {
-          path: "/feed",
-          element: <Feed /> 
+          path: "/login",
+          element: <Login />,
         },
         {
           path: "/test",
