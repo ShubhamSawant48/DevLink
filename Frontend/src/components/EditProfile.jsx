@@ -13,7 +13,6 @@ const EditProfile = () => {
         <p>First Name:</p>
         <input
           type="text"
-          placeholder="First Name:"
           className="input input-bordered w-auto md:w-auto mb-2"
           value={emailId}
           onChange={(e) => setEmailId(e.target.value)}
@@ -21,7 +20,6 @@ const EditProfile = () => {
         <p>Last Name:</p>
         <input
           type="text"
-          placeholder="Last Name:"
           className="input input-bordered w-full md:w-auto mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -29,7 +27,6 @@ const EditProfile = () => {
         <p>Photo URL:</p>
         <input
           type="text"
-          placeholder="Last Name:"
           className="input input-bordered w-full md:w-auto mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -37,7 +34,6 @@ const EditProfile = () => {
         <p>Age:</p>
         <input
           type="text"
-          placeholder="Last Name:"
           className="input input-bordered w-full md:w-auto mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -45,7 +41,6 @@ const EditProfile = () => {
         <p>Gender:</p>
         <input
           type="text"
-          placeholder="Last Name:"
           className="input input-bordered w-full md:w-auto mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -53,7 +48,6 @@ const EditProfile = () => {
         <p>About:</p>
         <input
           type="text"
-          placeholder="Last Name:"
           className="input input-bordered w-full md:w-auto mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
