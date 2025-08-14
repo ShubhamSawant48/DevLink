@@ -39,6 +39,7 @@ app.use("/",profileRouter);
 app.use("/",userRouter);
 app.use("/", (err, req, res, next) => {
   if (err) {
+    console.error(err.stack);
     res.send("something went wrong...last");
   }
 });

@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   return (
-    <div className="card bg-base-100 w-96 shadow-sm item-centre mt-7 border mx-auto">
+    <div className="card bg-base-100 w-96 shadow-sm item-centre mt-7 border mx-auto my-8">
       <div className="card-body">
         <h2 className="card-title mx-auto text-3xl mb-6">Sign In</h2>
         <input

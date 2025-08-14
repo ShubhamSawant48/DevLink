@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest } from "../utils/requestSlice";
+import { addRequest, removeRequest } from "../utils/requestSlice";
 import { useEffect } from "react";
 
 const Requests = () => {
@@ -11,8 +11,9 @@ const Requests = () => {
   const reviewRequest = async (status, _id) => {
     try {
       const res = await axios.post(
-        BASE_URL + "/request/review/" + status + "/" + _id
-      );
+        BASE_URL + "/request/review/" + status + "/" + _id,{},{withCredentials:true}
+      );  
+      dispatch(removeRequest(_id));
     } catch (err) {
       console.error(err);
     }
@@ -35,25 +36,26 @@ const Requests = () => {
 
   return (
     <div>
-      <h1 className="text-center text-3xl my-6">Connections</h1>
+      <h1 className="text-center text-3xl my-6">Requests</h1>
 
       {pendingRequests &&
         pendingRequests.map((request) => {
-          const { _id, fromUserdId } = request;
+          const { _id} = request;
+          const {photoURL,firstName,lastName,age,gender,about} = request.fromUserId;
           return (
             <div
               key={_id}
-              className="flex gap-4 bg-base-300 my-5 w-4/12 mx-auto p-5 rounded-lg"
+              className="flex gap-6 bg-base-300 my-5 w-5/12 mx-auto p-5 rounded-lg"
             >
               <div>
                 <img src={photoURL} className="w-20 h-20 rounded-md"></img>
               </div>
-              <div>
+              <div className="my-auto">
                 <h1>{firstName + " " + lastName}</h1>
-                <p>{age + "," + gender}</p>
+                <p>{age + ", " + gender}</p>
                 <p>{about}</p>
               </div>
-              <div>
+              <div className="my-auto ml-auto">
                 <button
                   className="btn btn-primary mx-2"
                   onClick={() => reviewRequest("rejected", _id)}
