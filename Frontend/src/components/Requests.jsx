@@ -11,8 +11,10 @@ const Requests = () => {
   const reviewRequest = async (status, _id) => {
     try {
       const res = await axios.post(
-        BASE_URL + "/request/review/" + status + "/" + _id,{},{withCredentials:true}
-      );  
+        BASE_URL + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
       dispatch(removeRequest(_id));
     } catch (err) {
       console.error(err);
@@ -40,8 +42,9 @@ const Requests = () => {
 
       {pendingRequests &&
         pendingRequests.map((request) => {
-          const { _id} = request;
-          const {photoURL,firstName,lastName,age,gender,about} = request.fromUserId;
+          const { _id } = request;
+          const { photoURL, firstName, lastName, age, gender, about } =
+            request.fromUserId;
           return (
             <div
               key={_id}

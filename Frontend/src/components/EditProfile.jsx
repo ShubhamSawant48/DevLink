@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
@@ -32,6 +33,8 @@ const EditProfile = ({ user }) => {
         { withCredentials: true }
       );
       dispatch(addUser(res?.data?.data));
+      
+      console.log(res)
       setShowToast(true);
       setTimeout(()=>{
         setShowToast(false);
@@ -42,8 +45,12 @@ const EditProfile = ({ user }) => {
     }
   };
 
+  useEffect(()=>{
+    saveProfile()
+  },[])
+  
   return (
-    <div className="flex justify-self-center gap-10">
+    <form className="flex justify-self-center gap-10" onSubmit={e => e.preventDefault()}>
       <div className="card bg-base-300 w-96 shadow-sm item-centre my-8 border">
         <div className="card-body">
           <h2 className="card-title mx-auto text-3xl mb-6">Edit Profile</h2>
@@ -74,6 +81,7 @@ const EditProfile = ({ user }) => {
             className="input input-bordered w-full md:w-auto"
             value={age}
             onChange={(e) => setAge(e.target.value)}
+            required
           />
           <p>Gender:</p>
           <input
@@ -119,7 +127,7 @@ const EditProfile = ({ user }) => {
           <span>Information Updated Successfully</span>
         </div>
       </div>}
-    </div>
+    </form>
   );
 };
 

@@ -27,11 +27,13 @@ const Feed = () => {
     getFeed();
   }, []);
 
-  return (
-    <div>
-        {feed && <UserCard user={feed[0]}/>}
-    </div>
-  );
+  if (!feed) return;
+
+  if (feed.length <= 0) {
+    return <h1 className="text-green-600 justify-self-center">No New Users Found:</h1>;
+  }
+
+  return <div>{feed && <UserCard user={feed[0]} />}</div>;
 };
 
 export default Feed;
