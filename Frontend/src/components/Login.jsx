@@ -39,7 +39,6 @@ const Login = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
-      console.log(user)
       dispatch(addUser(user?.data));
       return navigate("/profile/edit");
     } catch (err) {
