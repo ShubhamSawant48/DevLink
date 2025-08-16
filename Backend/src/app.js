@@ -5,6 +5,7 @@ const connectDB = require("./config/database");
 const User = require("./models/User");
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
+require('dotenv').config();
 
 connectDB()
   .then(async () => {
@@ -12,7 +13,7 @@ connectDB()
 
     await User.syncIndexes();
 
-    app.listen(7777, () => {
+    app.listen(process.env.PORT, () => {
       console.log("server established successfully...");
     });
   })

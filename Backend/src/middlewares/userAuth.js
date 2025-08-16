@@ -8,7 +8,7 @@ const userAuth = async (req, res, next) => {
       res.status(401).send("Authorized token expired...Login again!");
     }
 
-    const decodedMessage = await jwt.verify(token, "devTinder@123");
+    const decodedMessage = await jwt.verify(token, process.env.JWT_SECRET);
     const { id } = decodedMessage;
     const user = await User.findById(id);
     if(!user){
