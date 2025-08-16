@@ -7,7 +7,6 @@ import Feed from "./components/Feed";
 import Profile from "./components/Profile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
-
 function App() {
   const appRouter = createBrowserRouter([
     {
@@ -16,7 +15,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Feed /> 
+          element: <Feed />,
         },
         {
           path: "/login",
@@ -24,15 +23,15 @@ function App() {
         },
         {
           path: "/profile/edit",
-          element: <Profile />
+          element: <Profile />,
         },
         {
           path: "/user/connections",
-          element: <Connections />
+          element: <Connections />,
         },
         {
           path: "/user/request/recieved",
-          element: <Requests />
+          element: <Requests />,
         },
       ],
     },
@@ -41,7 +40,7 @@ function App() {
   return (
     <>
       <Provider store={appStore}>
-        <RouterProvider router={appRouter} />
+          <RouterProvider router={appRouter} />
       </Provider>
     </>
   );

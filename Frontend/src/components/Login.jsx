@@ -11,7 +11,7 @@ const Login = () => {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [error, setError] = useState("");
-  const [isSignUp, setIsSignUp] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

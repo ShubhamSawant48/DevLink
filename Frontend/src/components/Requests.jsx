@@ -26,7 +26,7 @@ const Requests = () => {
       const res = await axios.get(BASE_URL + "/user/request/recieved", {
         withCredentials: true,
       });
-      dispatch(addRequest(res?.data?.data));
+      dispatch(addRequest(res.data.data));
     } catch (err) {
       console.error(err);
     }
@@ -35,6 +35,10 @@ const Requests = () => {
   useEffect(() => {
     fetchRequests();
   }, []);
+
+  if(pendingRequests <= 0) {
+    return <h1 className="text-center text-3xl my-6">No requests Found:</h1>
+  }
 
   return (
     <div>

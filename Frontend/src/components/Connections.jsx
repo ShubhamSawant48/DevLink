@@ -9,12 +9,11 @@ const Connections = () => {
   const dispatch = useDispatch();
 
   const fetchConnections = async () => {
-    if (connections) return;
     try {
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
-      dispatch(addConnections(res?.data?.data));
+      dispatch(addConnections(res.data.data));
     } catch (err) {
       console.error(err);
     }
@@ -23,6 +22,13 @@ const Connections = () => {
   useEffect(() => {
     fetchConnections();
   }, []);
+
+  if(!connections) return;
+
+
+  if(connections === 0 ) {
+    return <h1 className="text-center text-3xl my-6">No Connections Found</h1>
+  }
 
   return (
     <div>
