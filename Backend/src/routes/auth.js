@@ -31,9 +31,9 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     await user.save();
-    res.send(user);
+    return res.send(user);
   } catch (err) {
-    res.status(500).send("user unable to add: " + err.message);
+    return res.status(500).send("user unable to add: " + err.message);
   }
 });
 
@@ -44,7 +44,7 @@ authRouter.post("/login", async (req, res) => {
 
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      res.status(401).send("Invalid Credentials...");
+      return res.status(401).send("Invalid Credentials...");
     }
 
     const isValidPassword = await user.checkValidPassword(password);
@@ -53,12 +53,12 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token, {
         expires: new Date(Date.now() + 7 * 3600000),
       });
-      res.send(user);
+      return res.send(user);
     } else {
-      res.status(401).send("Invalid Credentials...");
+      return res.status(401).send("Invalid Credentials...");
     }
   } catch (err) {
-    res.status(500).send("unable to login : " + err.message);
+    return res.status(500).send("unable to login : " + err.message);
   }
 });
 

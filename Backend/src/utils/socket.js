@@ -9,13 +9,15 @@ const initializeSocket = (server) => {
 
     io.on("connection",(socket)=>{
 
-        socket.on("joinChat",({ firstName,userId, targetUserId })=>{
+        socket.on("joinChat",({userId, targetUserId })=>{
             const roomId = [userId,targetUserId].sort().join("_");
-            console.log(firstName+" joined roomId:"+roomId)
             socket.join(roomId);
         });
 
-        socket.on("sendMessage",()=>{});
+        socket.on("sendMessage",({firstName,userId,targetUserId,text})=>{
+            const roomId = [userId,targetUserId].sort().join("_");
+            socket.to(roomId).emit("messageRecieved",{firstName,text});
+        });
         
         socket.on("disconnect",()=>{});
     })
