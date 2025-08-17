@@ -7,6 +7,7 @@ import Feed from "./components/Feed";
 import Profile from "./components/Profile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import Chat from "./components/Chat";
 function App() {
   const appRouter = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ function App() {
           path: "/user/request/recieved",
           element: <Requests />,
         },
+        {
+          path:"/chat/:targetUserId",
+          element:<Chat />
+        }
       ],
     },
   ]);

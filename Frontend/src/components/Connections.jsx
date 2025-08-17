@@ -3,6 +3,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionSlice";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
@@ -23,11 +24,10 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
-  if(!connections) return;
+  if (!connections) return;
 
-
-  if(connections === 0 ) {
-    return <h1 className="text-center text-3xl my-6">No Connections Found</h1>
+  if (connections === 0) {
+    return <h1 className="text-center text-3xl my-6">No Connections Found</h1>;
   }
 
   return (
@@ -46,11 +46,17 @@ const Connections = () => {
               <div>
                 <img src={photoURL} className="w-20 h-20 rounded-md"></img>
               </div>
-              <div>
+              <div className="flex-1">
                 <h1>{firstName + " " + lastName}</h1>
                 <p>{age + "," + gender}</p>
                 <p>{about}</p>
               </div>
+              <Link
+                to={"/chat/"+_id}
+                className="btn btn-primary my-auto"
+              >
+                <button>Chat</button>
+              </Link>
             </div>
           );
         })}
