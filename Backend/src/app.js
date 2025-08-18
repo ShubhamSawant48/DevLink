@@ -22,6 +22,7 @@ const connectionRequestRouter = require("./routes/request");
 const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const initializeSocket  = require("./utils/socket");
+const chatRouter = require("./routes/chat");
 
 const server = http.createServer(app);
 initializeSocket(server);
@@ -45,6 +46,7 @@ app.use("/",authRouter);
 app.use("/",connectionRequestRouter);
 app.use("/",profileRouter);
 app.use("/",userRouter);
+app.use("/",chatRouter);
 app.use("/", (err, req, res, next) => {
   if (err) {
     console.error(err.stack);
