@@ -26,6 +26,10 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
+    if (!loggedInUser) {
+      return res.status(401).json({ message: "Unauthorized", data: [] });
+    }
+
     const requests = await ConnectionRequestModel.find({
       $or: [
         { toUserId: loggedInUser._id, status: "accepted" },
@@ -35,14 +39,27 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       .populate("fromUserId", SAFE_DATA)
       .populate("toUserId", SAFE_DATA);
 
-    const data = requests.map((row) => {
-      if (row.fromUserId._id.equals(loggedInUser._id)) return row.toUserId;
-      return row.fromUserId;
-    });
+    const connections = requests
+      .map((row) => {
+        if (!row.fromUserId || !row.toUserId) return null;
 
-    res.json({ message: "data fetched successfullly...", data: data });
+        if (row.fromUserId._id.equals(loggedInUser._id)) {
+          return row.toUserId;
+        }
+        return row.fromUserId;
+      })
+      .filter(Boolean);
+
+    return res.status(200).json({
+      message: "Connections fetched successfully",
+      data: connections,
+    });
   } catch (err) {
-    res.json({ message: "error: " + err.message });
+    console.error(err);
+    return res.status(500).json({
+      message: "Server error",
+      data: [],
+    });
   }
 });
 

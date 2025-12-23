@@ -96,7 +96,7 @@ const EditProfile = ({ user }) => {
           />
           {error && (
             <h1 className="text-red-500 mb-3 mx-auto text-2xl font-bold">
-              {error.response.data}
+              {error.response?.data}
             </h1>
           )}
           <div className="card-actions justify-end w-full">
