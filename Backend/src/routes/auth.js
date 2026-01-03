@@ -26,8 +26,12 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     const token = await user.getJWT();
+    // In your login/signup route
     res.cookie("token", token, {
-      expires: new Date(Date.now() + 7 * 3600000),
+      expires: new Date(Date.now() + 8 * 3600000),
+      httpOnly: true,
+      secure: true, // REQUIRED: Only send over HTTPS (Render uses HTTPS)
+      sameSite: "None", // REQUIRED: Allows cookie sharing across different domains
     });
 
     await user.save();
@@ -51,7 +55,10 @@ authRouter.post("/login", async (req, res) => {
     if (isValidPassword) {
       const token = await user.getJWT();
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 7 * 3600000),
+        expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: true,
+        secure: true, // REQUIRED: Only send over HTTPS
+        sameSite: "None", // REQUIRED: Allow cross-site requests
       });
       return res.send(user);
     } else {
@@ -68,19 +75,19 @@ authRouter.post("/logout", userAuth, async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict"
+      sameSite: "strict",
     });
-    
-    res.json({ 
+
+    res.json({
       success: true,
-      message: "Logout successful" 
+      message: "Logout successful",
     });
   } catch (error) {
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: "Logout failed" 
+      message: "Logout failed",
     });
   }
-});;
+});
 
 module.exports = authRouter;

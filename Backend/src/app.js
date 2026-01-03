@@ -9,7 +9,7 @@ require("dotenv").config();
 
 // 1. CORS middleware FIRST
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["https://devlink-blush.vercel.app","http://localhost:5173"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
